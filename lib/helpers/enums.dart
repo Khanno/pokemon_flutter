@@ -1,0 +1,1 @@
+enum BottomNavigatorIndex {HOME, POKE_LIST, ADD_NEW_POKEMON}

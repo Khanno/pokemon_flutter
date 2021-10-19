@@ -31,12 +31,22 @@ TextStyle customCardLinkStyle() {
   );
 }
 
-TextStyle dashboardText() {
+TextStyle customDashboardText() {
   return GoogleFonts.robotoMono(
       textStyle: const TextStyle(
         fontSize: 15.0,
         color: Color(0xFF048ABF),
         fontWeight: FontWeight.w700,
+      )
+  );
+}
+
+TextStyle customListCardTitle({Color? color}) {
+  return GoogleFonts.robotoMono(
+      textStyle: TextStyle(
+        fontSize: 14.0,
+        color: color ?? Color(0xFF333333),
+        fontWeight: FontWeight.w500,
       )
   );
 }

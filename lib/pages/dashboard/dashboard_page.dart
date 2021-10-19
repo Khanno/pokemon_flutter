@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:pokemon_flutter/helpers/enums.dart';
 import 'package:pokemon_flutter/pages/dashboard/widgets/menu_cards.dart';
 import 'package:pokemon_flutter/styles/custom_text_styles.dart';
+import 'package:pokemon_flutter/widgets/bottom_navigator/custom_bottom_navigator.dart';
 
 class DashboardPage extends StatelessWidget {
   @override
@@ -16,30 +18,7 @@ class DashboardPage extends StatelessWidget {
             ),
             centerTitle: true,
           ),
-          bottomNavigationBar: BottomNavigationBar(
-            backgroundColor: const Color(0xFFD94A4A),
-            items: const [
-              BottomNavigationBarItem(
-                icon: Icon(Icons.home),
-                label: 'Home',
-                backgroundColor: Colors.white,
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.list),
-                label: 'Pokelista',
-                backgroundColor: Colors.white,
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.add_circle_outlined),
-                label: 'Cadastro',
-                backgroundColor: Colors.white,
-              ),
-            ],
-            unselectedItemColor: Colors.white,
-            type: BottomNavigationBarType.fixed,
-            selectedItemColor: Colors.white,
-            onTap: (int _) {},
-          ),
+          bottomNavigationBar: CustomBottomNavigator(currentIndex: BottomNavigatorIndex.HOME,),
           body: Container(
             decoration: const BoxDecoration(
                 image: DecorationImage(
@@ -62,7 +41,7 @@ class DashboardPage extends StatelessWidget {
                               child: MenuCardsWidget(
                                 title: 'Veja todos os 150 Pokémons',
                                 linkTitle: 'Visualizar Pokémons ',
-                                onTap: () {},
+                                onTap: () => Navigator.pushNamed(context, '/pokemon-list'),
                               ),
                             ),
                             SizedBox(width: 43.0),
@@ -85,14 +64,14 @@ class DashboardPage extends StatelessWidget {
                     children: [
                       Text(
                         'As circunstâncias do nascimento de alguém são irrelevantes; é o que você faz com o dom da vida que determina quem você é.',
-                        style: dashboardText(),
+                        style: customDashboardText(),
                       ),
                       SizedBox(height: 10.0),
                       Container(
                         width: MediaQuery.of(context).size.width,
                         child: Text(
                           'Mewtwo',
-                          style: dashboardText(),
+                          style: customDashboardText(),
                           textAlign: TextAlign.right,
                         ),
                       )
