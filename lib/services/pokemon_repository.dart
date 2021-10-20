@@ -11,18 +11,18 @@ class PokemonRepository {
     throw PokemonException.fromMap(error);
   }
 
-  Future<PokemonResponse> getPokemonList() async {
+  Future<PokemonResponse> getPokemonList({required int pokemonId}) async {
     try {
-      Response<dynamic> response = await dio.get('${dio.options.baseUrl}pokedex/1');
+      Response<dynamic> response = await dio.get('${dio.options.baseUrl}pokemon/$pokemonId');
       return PokemonResponse.fromResponse(data: response.data);
     } on DioError catch(e) {
       return errorHandler(e);
     }
   }
 
-  Future<PokemonResponse> getPokemonDetails({required String name}) async {
+  Future<PokemonResponse> getPokemonDetails({required int index}) async {
     try {
-      Response<dynamic> response = await dio.get('${dio.options.baseUrl}pokemon/$name');
+      Response<dynamic> response = await dio.get('${dio.options.baseUrl}pokemon-species/$index');
       return PokemonResponse.fromResponse(data: response.data);
     } on DioError catch(e) {
       return errorHandler(e);

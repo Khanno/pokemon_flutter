@@ -11,11 +11,11 @@ TextStyle customTitleStyle({required Color color, bool isBold = false}) {
   );
 }
 
-TextStyle customCardTitle() {
+TextStyle customCardTitle({Color? color}) {
   return GoogleFonts.robotoMono(
-    textStyle: const TextStyle(
+    textStyle: TextStyle(
       fontSize: 12.0,
-      color: Color(0xFF333333),
+      color: color ?? const Color(0xFF333333),
       fontWeight: FontWeight.w400,
     )
   );
@@ -31,11 +31,11 @@ TextStyle customCardLinkStyle() {
   );
 }
 
-TextStyle customDashboardText() {
+TextStyle customDashboardText({Color? color}) {
   return GoogleFonts.robotoMono(
-      textStyle: const TextStyle(
+      textStyle: TextStyle(
         fontSize: 15.0,
-        color: Color(0xFF048ABF),
+        color: color ?? const Color(0xFF048ABF),
         fontWeight: FontWeight.w700,
       )
   );
@@ -47,6 +47,16 @@ TextStyle customListCardTitle({Color? color}) {
         fontSize: 14.0,
         color: color ?? Color(0xFF333333),
         fontWeight: FontWeight.w500,
+      )
+  );
+}
+
+TextStyle customButtonText({Color? color}) {
+  return GoogleFonts.robotoMono(
+      textStyle: TextStyle(
+        fontSize: 16.0,
+        color: color ?? Color(0xFF333333),
+        fontWeight: FontWeight.w700,
       )
   );
 }

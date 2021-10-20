@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pokemon_flutter/helpers/enums.dart';
-import 'package:pokemon_flutter/pages/pokemon_list/bloc/pokemon_list_bloc.dart';
-import 'package:pokemon_flutter/pages/pokemon_list/bloc/pokemon_list_state.dart';
+import 'package:pokemon_flutter/pages/pokemon_list/bloc/pokemon_list_bloc/pokemon_list_bloc.dart';
+import 'package:pokemon_flutter/pages/pokemon_list/bloc/pokemon_list_bloc/pokemon_list_state.dart';
+import 'package:pokemon_flutter/pages/pokemon_list/widgets/pokemon_details_modal_widget.dart';
 import 'package:pokemon_flutter/pages/pokemon_list/widgets/pokemon_list_card_widget.dart';
 import 'package:pokemon_flutter/styles/custom_text_styles.dart';
 import 'package:pokemon_flutter/widgets/bottom_navigator/custom_bottom_navigator.dart';
+
+import 'bloc/pokemon_list_bloc/pokemon_list_event.dart';
 
 class PokemonListPage extends StatelessWidget {
   @override
@@ -57,8 +60,24 @@ class PokemonListPage extends StatelessWidget {
                           pokemonName: state.pokemonList![index].pokemonName,
                           index: index + 1,
                           isFavorite: false,
-                          image: Image.network(state.pokemonList![index].urlImage),
-                          onTap: () {},
+                          image: Image.network(state.pokemonList![index].urlImage, fit: BoxFit.cover,),
+                          onTap: () {
+                            showModalBottomSheet(
+                                context: context,
+                                backgroundColor: const Color(0xFF5CC8F2),
+                                shape: const RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(15.0), topRight: Radius.circular(15.0))),
+                                builder: (BuildContext context) {
+                                  return PokemonDetailsModalWidget(
+                                    image: Image.network(state.pokemonList![index].urlImage, fit: BoxFit.cover,),
+                                    index: index,
+                                    type: state.pokemonList![index].pokemonType,
+                                    abilities: state.pokemonList![index].pokemonSkills,
+                                    name: state.pokemonList![index].pokemonName,
+                                    isFavorite: state.pokemonList![index].isFavorite,
+                                    onPressed: () => context.read<PokemonListBloc>().add(SetFavoriteEvent(index: index)),
+                                  );
+                            });
+                          },
                         ),
                         const Padding(
                           padding: EdgeInsets.only(left: 85.0),
