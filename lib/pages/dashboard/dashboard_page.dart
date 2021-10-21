@@ -3,22 +3,16 @@ import 'package:flutter_svg/svg.dart';
 import 'package:pokemon_flutter/helpers/enums.dart';
 import 'package:pokemon_flutter/pages/dashboard/widgets/menu_cards.dart';
 import 'package:pokemon_flutter/styles/custom_text_styles.dart';
-import 'package:pokemon_flutter/widgets/bottom_navigator/custom_bottom_navigator.dart';
+import 'package:pokemon_flutter/widgets/app_bar/custom_app_bar_widget.dart';
+import 'package:pokemon_flutter/widgets/bottom_navigator/custom_bottom_navigator_widget.dart';
 
 class DashboardPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-          appBar: AppBar(
-            backgroundColor: const Color(0xFFD94A4A),
-            title: Text(
-              'POKEDEX',
-              style: customTitleStyle(color: Colors.white),
-            ),
-            centerTitle: true,
-          ),
-          bottomNavigationBar: CustomBottomNavigator(currentIndex: BottomNavigatorIndex.HOME,),
+          appBar: CustomAppBarWidget(title: 'POKEDEX',),
+          bottomNavigationBar: CustomBottomNavigatorWidget(currentIndex: BottomNavigatorIndex.HOME,),
           body: Container(
             decoration: const BoxDecoration(
                 image: DecorationImage(
@@ -49,7 +43,7 @@ class DashboardPage extends StatelessWidget {
                               child: MenuCardsWidget(
                                 title: 'Crie já seu próprio Pokémon',
                                 linkTitle: 'Cadastrar novo Pokémon',
-                                onTap: () {},
+                                onTap: () => Navigator.pushNamed(context, '/new-pokemon'),
                               ),
                             ),
                           ],

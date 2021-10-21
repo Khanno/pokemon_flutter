@@ -1,10 +1,12 @@
 class PokemonDetailsState {
   final String? description;
-  final String? type;
+  final String? specie;
   final String? message;
 
-  PokemonDetailsState({this.type, this.description, this.message});
+  PokemonDetailsState({this.specie, this.description, this.message});
 }
+
+class CustomPokemonState extends PokemonDetailsState {}
 
 class LoadingDetailsState extends PokemonDetailsState {}
 

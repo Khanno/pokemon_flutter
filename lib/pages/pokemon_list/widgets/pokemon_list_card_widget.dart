@@ -44,9 +44,19 @@ class PokemonListCardWidget extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      pokemonName.toCapitalized(),
-                      style: customListCardTitle(),
+                    Row(
+                      children: [
+                        Text(
+                          pokemonName.toCapitalized(),
+                          style: customListCardTitle(),
+                        ),
+                        isFavorite
+                            ? const Icon(
+                                Icons.star,
+                                color: Colors.yellow,
+                              )
+                            : const Icon(Icons.star_border_outlined),
+                      ],
                     ),
                     Text(
                       '#$index',

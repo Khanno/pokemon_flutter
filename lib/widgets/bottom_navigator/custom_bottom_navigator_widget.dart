@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:pokemon_flutter/helpers/enums.dart';
 
-class CustomBottomNavigator extends StatelessWidget {
+class CustomBottomNavigatorWidget extends StatelessWidget {
   final BottomNavigatorIndex currentIndex;
 
-  CustomBottomNavigator({required this.currentIndex});
+  CustomBottomNavigatorWidget({required this.currentIndex});
 
   @override
   Widget build(BuildContext context) {
@@ -37,12 +37,13 @@ class CustomBottomNavigator extends StatelessWidget {
         } else {
           switch(index) {
             case 0:
-              Navigator.pushReplacementNamed(context, '/');
+              Navigator.pushNamed(context, '/');
               break;
             case 1:
-              Navigator.pushReplacementNamed(context, '/pokemon-list');
+              Navigator.pushNamed(context, '/pokemon-list');
               break;
             case 2:
+              Navigator.pushNamed(context, '/new-pokemon');
               break;
           }
         }

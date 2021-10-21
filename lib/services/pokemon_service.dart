@@ -17,4 +17,22 @@ class PokemonService {
     PokemonResponse response = await pokemonRepository.getPokemonDetails(index: index);
     return PokemonDetails.fromContentResponse(response.content as Map);
   }
+
+  Future<PokemonResponse> loadTypes() async {
+    PokemonResponse response = await pokemonRepository.loadTypes();
+    return response;
+  }
+
+  Future<PokemonResponse> loadAbilities() async {
+    PokemonResponse response = await pokemonRepository.loadAbilities();
+    return response;
+  }
+
+  Future<PokemonResponse> loadCategories() async {
+    PokemonResponse response = await pokemonRepository.loadCategories();
+    return response;
+  }
+
+
+
 }
