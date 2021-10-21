@@ -16,14 +16,14 @@ class _PokeballLoaderWidgetState extends State<PokeballLoaderWidget> with Single
 
   @override
   void initState() {
-    super.initState();
     controller = AnimationController(vsync: this, duration: const Duration(seconds: 1), value: 0)..repeat();
+    super.initState();
   }
 
   @override
   void dispose() {
-    super.dispose();
     controller.dispose();
+    super.dispose();
   }
 
   @override
