@@ -1,6 +1,6 @@
 # pokemon_flutter
 
-This flutter app shows the first 15 pokemons of the pokeAPI ![alt_text](https://icon-library.com/images/pokemon-ball-icon/pokemon-ball-icon-16.jpg)
+This flutter app shows the first 15 pokemons of the pokeAPI <img src="https://www.clipartmax.com/png/middle/147-1475559_pokeball-clipart-svg-pokeball-icon.png" width="48">
 
 It's possible to create you own pokemons using the inside form in the app. The pokemon information will be saved until you restart the app.
 
