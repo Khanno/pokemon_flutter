@@ -1,16 +1,20 @@
 # pokemon_flutter
 
-A flutter app that shows a list of pokemons
+This flutter app shows the first 15 pokemons of the pokeAPI. 
+
+It's possible to create you own pokemons using the inside form in the app. The pokemon information will be saved until you restart the app.
+
+This app uses Flutter BLoC for state managment and Dio for http requests.
+
+Some other packages were used to quality of life during development.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+This project don't require anything out of the ordinary.
 
-A few resources to get you started if this is your first Flutter project:
+If you are trying to run the project for the fist time, run the following commands in the terminal when inside the project folder:
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+- flutter pub get
+- flutter run
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+You can change that last command to run in a device of your preference.
