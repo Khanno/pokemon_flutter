@@ -1,6 +1,6 @@
 # pokemon_flutter
 
-<p align="center"><img src=https://icon-library.com/images/pokemon-ball-icon/pokemon-ball-icon-16.jpg></p>
+<p align="center"><img src=https://www.freeiconspng.com/thumbs/pokeball-png/file-pokeball-png-0.png></p>
 
 This flutter app shows the first 15 pokemons of the pokeAPI.
 
