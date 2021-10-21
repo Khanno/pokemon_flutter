@@ -72,7 +72,7 @@ class DashboardPage extends StatelessWidget {
                                   padding: const EdgeInsets.all(25.0),
                                   child: Center(
                                     child: Text(
-                                      'Aplicativo feito para realização do teste para a vaga de Flutter na Tunts - Nakatani',
+                                      'This is a secret!',
                                       style: customTitleStyle(color: Colors.deepOrange, isBold: true),
                                       textAlign: TextAlign.center,
                                     ),
