@@ -9,6 +9,7 @@ import 'package:pokemon_flutter/pages/pokemon_list/widgets/pokemon_details_modal
 import 'package:pokemon_flutter/pages/pokemon_list/widgets/pokemon_list_card_widget.dart';
 import 'package:pokemon_flutter/widgets/app_bar/custom_app_bar_widget.dart';
 import 'package:pokemon_flutter/widgets/bottom_navigator/custom_bottom_navigator_widget.dart';
+import 'package:pokemon_flutter/widgets/pokeball_loader/pokeball_loader_widget.dart';
 
 import 'bloc/pokemon_list_bloc/pokemon_list_event.dart';
 
@@ -54,7 +55,7 @@ class PokemonListPage extends StatelessWidget {
             switch (state.runtimeType) {
               case LoadingState:
                 return const Center(
-                  child: CircularProgressIndicator(),
+                  child: PokeballLoaderWidget(),
                 );
               default:
                 return Column(

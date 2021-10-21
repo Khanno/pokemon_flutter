@@ -22,8 +22,8 @@ class PokemonDetailsBloc extends Bloc<PokemonDetailsEvent, PokemonDetailsState>{
       } else {
         PokemonDetails pokemonDetails = await pokemonService.loadPokemonDetails(
             index: event.index);
-        emit(PokemonDetailsState(description: pokemonDetails.description,
-            specie: pokemonDetails.type));
+        String description = pokemonDetails.description.replaceAll('\n', ' ').replaceAll('\f', ' ');
+        emit(PokemonDetailsState(description: description, specie: pokemonDetails.type));
       }
     } on PokemonException catch(error) {
       emit(ErrorDetailsState(errorMessage: error.message));

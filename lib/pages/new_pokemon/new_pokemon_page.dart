@@ -15,6 +15,7 @@ import 'package:pokemon_flutter/styles/custom_text_styles.dart';
 import 'package:pokemon_flutter/widgets/app_bar/custom_app_bar_widget.dart';
 import 'package:pokemon_flutter/widgets/bottom_navigator/custom_bottom_navigator_widget.dart';
 import 'package:pokemon_flutter/widgets/dropdown_button/custom_dropdown_button_widget.dart';
+import 'package:pokemon_flutter/widgets/pokeball_loader/pokeball_loader_widget.dart';
 import 'package:pokemon_flutter/widgets/text_input/custom_text_input_widget.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -42,16 +43,19 @@ class NewPokemonPage extends StatelessWidget {
               builder: (BuildContext context, NewPokemonState state) {
                 switch(state.runtimeType) {
                   case LoadingDropdownButtons:
-                    return const Center(child: CircularProgressIndicator());
+                    return const Center(child: PokeballLoaderWidget());
                   default:
                     return Form(
                       key: newPokemonFormKey,
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 25.0),
                         child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text('Crie seu próprio Pokémon'),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 15.0),
+                              child: Text('Crie seu próprio Pokémon', style: customTitleStyle(color: const Color(0xFF048ABF)),),
+                            ),
                             Expanded(
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -67,12 +71,12 @@ class NewPokemonPage extends StatelessWidget {
                                     },
                                     child: Column(
                                       children: [
-                                        state.imageBytes == null ? SvgPicture.asset('assets/images/pokeball.svg') : Image.memory(state.imageBytes as Uint8List, width: 127.0, height: 127.0,),
+                                        state.imageBytes == null ? Expanded(child: SvgPicture.asset('assets/images/pokeball.svg')) : Expanded(child: Image.memory(state.imageBytes as Uint8List, width: 127.0, height: 127.0,)),
                                         const Text('Editar'),
                                       ],
                                     ),
                                   ),
-                                  const SizedBox(width: 15.0,),
+                                  const SizedBox(width: 25.0,),
                                   Expanded(
                                     child: CustomTextInputWidget(
                                       label: const Text('Nome do Pokémon'),

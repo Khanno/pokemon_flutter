@@ -11,6 +11,8 @@ import 'package:pokemon_flutter/pages/pokemon_list/bloc/pokemon_list_bloc/pokemo
 import 'package:pokemon_flutter/pages/pokemon_list/bloc/pokemon_list_bloc/pokemon_list_state.dart';
 import 'package:pokemon_flutter/services/pokemon_service.dart';
 import 'package:pokemon_flutter/styles/custom_text_styles.dart';
+import 'package:pokemon_flutter/widgets/pokeball_loader/pokeball_loader_widget.dart';
+import 'package:pokemon_flutter/helpers/string_helper.dart';
 
 class PokemonDetailsModalWidget extends StatelessWidget {
   final PokemonListItemDetailed pokemon;
@@ -33,11 +35,11 @@ class PokemonDetailsModalWidget extends StatelessWidget {
         switch (state.runtimeType) {
           case LoadingDetailsState:
             return const Center(
-              child: CircularProgressIndicator(),
+              child: PokeballLoaderWidget(),
             );
           default:
             return Padding(
-                padding: const EdgeInsets.symmetric(vertical: 15.0),
+                padding: const EdgeInsets.symmetric(vertical: 24.0, horizontal: 24.0),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -59,20 +61,20 @@ class PokemonDetailsModalWidget extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    '#$index ${pokemon.pokemonName}',
+                                    '#$index ${pokemon.pokemonName.toCapitalized()}',
                                     style: customDashboardText(
                                         color: Colors.white),
                                   ),
                                   Text(
-                                    '${pokemon.customSpecie ?? state.specie}',
+                                    '${pokemon.customSpecie?.toCapitalized() ?? state.specie?.toCapitalized()}',
                                     style: customCardTitle(color: Colors.white),
                                   ),
                                   Text(
-                                    pokemon.pokemonSkills,
+                                    pokemon.pokemonSkills.toCapitalized(),
                                     style: customCardTitle(color: Colors.white),
                                   ),
                                   Text(
-                                    pokemon.pokemonType,
+                                    pokemon.pokemonType.toCapitalized(),
                                     style: customCardTitle(color: Colors.white),
                                   ),
                                 ],
@@ -95,12 +97,13 @@ class PokemonDetailsModalWidget extends StatelessWidget {
                         ],
                       ),
                     ),
-                    Text(
-                      '${pokemon.customDescription ?? state.description}',
-                      style: customCardTitle(color: Colors.white),
-                      textAlign: TextAlign.justify,
-                      softWrap: true,
-                      textWidthBasis: TextWidthBasis.parent,
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                      child: Text(
+                        '${pokemon.customDescription ?? state.description}',
+                        style: customCardTitle(color: Colors.white),
+                        textAlign: TextAlign.justify,
+                      ),
                     ),
                     const SizedBox(
                       height: 15.0,

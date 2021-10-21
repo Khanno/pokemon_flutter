@@ -61,6 +61,4 @@ class NewPokemonBloc extends Bloc<NewPokemonEvent, NewPokemonState>{
   void _setPokemonDescriptionToState(SetPokemonDescriptionEvent event, Emitter<NewPokemonState> emit) {
     emit(state.copyWith(description: event.pokemonDescription));
   }
-
-
 }
