@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:pokemon_flutter/helpers/enums.dart';
@@ -63,10 +64,28 @@ class DashboardPage extends StatelessWidget {
                       SizedBox(height: 10.0),
                       Container(
                         width: MediaQuery.of(context).size.width,
-                        child: Text(
-                          'Mewtwo',
-                          style: customDashboardText(),
-                          textAlign: TextAlign.right,
+                        child: GestureDetector(
+                          onDoubleTap: () {
+                            showDialog(context: context, builder: (BuildContext context) {
+                              return CupertinoAlertDialog(
+                                content: Padding(
+                                  padding: const EdgeInsets.all(25.0),
+                                  child: Center(
+                                    child: Text(
+                                      'Aplicativo feito para realização do teste para a vaga de Flutter na Tunts - Nakatani',
+                                      style: customTitleStyle(color: Colors.deepOrange, isBold: true),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
+                                ),
+                              );
+                            });
+                          },
+                          child: Text(
+                            'Mewtwo',
+                            style: customDashboardText(),
+                            textAlign: TextAlign.right,
+                          ),
                         ),
                       )
                     ],
