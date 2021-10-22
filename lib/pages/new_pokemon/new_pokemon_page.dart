@@ -19,11 +19,21 @@ import 'package:pokemon_flutter/widgets/pokeball_loader/pokeball_loader_widget.d
 import 'package:pokemon_flutter/widgets/text_input/custom_text_input_widget.dart';
 import 'package:image_picker/image_picker.dart';
 
-class NewPokemonPage extends StatelessWidget {
+class NewPokemonPage extends StatefulWidget {
+  @override
+  State<NewPokemonPage> createState() => _NewPokemonPageState();
+}
+
+class _NewPokemonPageState extends State<NewPokemonPage> {
   final GlobalKey<FormState> newPokemonFormKey = GlobalKey<FormState>();
+
   final TextEditingController pokemonName = TextEditingController();
+
   final TextEditingController descriptionController = TextEditingController();
+
   final ImagePicker _picker = ImagePicker();
+
+  bool imageIsNull = false;
 
   @override
   Widget build(BuildContext context) {
@@ -73,6 +83,12 @@ class NewPokemonPage extends StatelessWidget {
                                       children: [
                                         state.imageBytes == null ? Expanded(child: SvgPicture.asset('assets/images/pokeball.svg')) : Expanded(child: Image.memory(state.imageBytes as Uint8List, width: 127.0, height: 127.0,)),
                                         const Text('Editar'),
+                                        SizedBox(height: 5.0,),
+                                        Visibility(
+                                            visible: imageIsNull,
+                                            child: Text('Imagem obrigatória.', style: customCardTitle(color: Colors.red),
+                                            ),
+                                        )
                                       ],
                                     ),
                                   ),
@@ -80,8 +96,10 @@ class NewPokemonPage extends StatelessWidget {
                                   Expanded(
                                     child: CustomTextInputWidget(
                                       label: const Text('Nome do Pokémon'),
+                                      hint: 'Nome do Pokémon',
                                       controller: pokemonName,
                                       isRequired: true,
+                                      textInputAction: TextInputAction.next,
                                       onChanged: (String value) => context.read<NewPokemonBloc>().add(SetPokemonNameEvent(pokemonName: pokemonName.text)),
                                     ),
                                   ),
@@ -101,7 +119,7 @@ class NewPokemonPage extends StatelessWidget {
                                         }
                                         return null;
                                       },
-                                      label: const Text('Categoria'),
+                                      hint: 'Categoria',
                                       items: state.categories!.map(
                                               (category) => DropdownMenuItem(
                                                 child: Text(category.replaceAll('-', ' ')),
@@ -122,7 +140,7 @@ class NewPokemonPage extends StatelessWidget {
                                         }
                                         return null;
                                       },
-                                      label: Text('Tipo'),
+                                      hint: 'Tipo',
                                       items: state.types!.map(
                                               (type) => DropdownMenuItem(
                                                 child: Text(type.replaceAll('-', ' ')),
@@ -148,7 +166,7 @@ class NewPokemonPage extends StatelessWidget {
                                         }
                                         return null;
                                       },
-                                      label: Text('Habilidades'),
+                                      hint: 'Habilidades',
                                       items: state.abilities!.map(
                                               (ability) => DropdownMenuItem(
                                                 child: Text(ability.replaceAll('-', ' ')),
@@ -167,6 +185,8 @@ class NewPokemonPage extends StatelessWidget {
                                   controller: descriptionController,
                                   onChanged: (String value) => context.read<NewPokemonBloc>().add(SetPokemonDescriptionEvent(pokemonDescription: descriptionController.text)),
                                   label: Text('Descrição'),
+                                  hint: 'Descrição',
+                                  textInputAction: TextInputAction.done,
                                   isRequired: true,
                               ),
                             ),
@@ -188,7 +208,7 @@ class NewPokemonPage extends StatelessWidget {
                                   builder: (BuildContext context, PokemonListState listState) {
                                     return TextButton(
                                         onPressed: () {
-                                          if(newPokemonFormKey.currentState!.validate()) {
+                                          if(newPokemonFormKey.currentState!.validate() && state.imageBytes != null) {
                                             context.read<PokemonListBloc>().add(
                                               CreateNewPokemonEvent(
                                                 newPokemon: PokemonListItemDetailed(
@@ -204,6 +224,10 @@ class NewPokemonPage extends StatelessWidget {
                                                 ),
                                               ),
                                             );
+                                          } else if (state.imageBytes == null){
+                                            setState(() {
+                                              imageIsNull = true;
+                                            });
                                           }
                                         },
                                         child: Text(
