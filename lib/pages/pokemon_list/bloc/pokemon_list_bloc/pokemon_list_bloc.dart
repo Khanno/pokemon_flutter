@@ -36,6 +36,7 @@ class PokemonListBloc extends Bloc<PokemonListEvent, PokemonListState> {
   }
 
   void _createNewPokemonState(CreateNewPokemonEvent event, Emitter<PokemonListState> emit) {
+    emit(SavingNewPokemon(pokemonList: state.pokemonList));
     List<PokemonListItemDetailed> newList = state.pokemonList ?? [];
     newList.add(event.newPokemon);
     emit(PokemonCreated(pokemonList: newList));

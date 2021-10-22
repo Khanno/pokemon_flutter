@@ -39,7 +39,6 @@ class _NewPokemonPageState extends State<NewPokemonPage> {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-          resizeToAvoidBottomInset: false,
           appBar: CustomAppBarWidget(
             title: 'CADASTRE SEU POKÉMON',
             leading: IconButton(
@@ -57,190 +56,203 @@ class _NewPokemonPageState extends State<NewPokemonPage> {
                   default:
                     return Form(
                       key: newPokemonFormKey,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 25.0),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 15.0),
-                              child: Text('Crie seu próprio Pokémon', style: customTitleStyle(color: const Color(0xFF048ABF)),),
-                            ),
-                            Expanded(
-                              child: Row(
+                      child: CustomScrollView(
+                        slivers: [
+                          SliverFillRemaining(
+                            hasScrollBody: false,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 25.0),
+                              child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  GestureDetector(
-                                    onTap: () async {
-                                      final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
-                                      if(image != null) {
-                                        Uint8List imageBytes = await image.readAsBytes();
-                                        context.read<NewPokemonBloc>().add(SetImageEvent(imageBytes: imageBytes));
-                                      }
-                                    },
-                                    child: Column(
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(vertical: 15.0),
+                                    child: Text('Crie seu próprio Pokémon', style: customTitleStyle(color: const Color(0xFF048ABF)),),
+                                  ),
+                                  Expanded(
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      crossAxisAlignment: CrossAxisAlignment.center,
                                       children: [
-                                        state.imageBytes == null ? Expanded(child: SvgPicture.asset('assets/images/pokeball.svg')) : Expanded(child: Image.memory(state.imageBytes as Uint8List, width: 127.0, height: 127.0,)),
-                                        const Text('Editar'),
-                                        SizedBox(height: 5.0,),
-                                        Visibility(
-                                            visible: imageIsNull,
-                                            child: Text('Imagem obrigatória.', style: customCardTitle(color: Colors.red),
-                                            ),
-                                        )
+                                        GestureDetector(
+                                          onTap: () async {
+                                            final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+                                            if(image != null) {
+                                              Uint8List imageBytes = await image.readAsBytes();
+                                              context.read<NewPokemonBloc>().add(SetImageEvent(imageBytes: imageBytes));
+                                            }
+                                          },
+                                          child: Column(
+                                            children: [
+                                              state.imageBytes == null ? Expanded(child: SvgPicture.asset('assets/images/pokeball.svg')) : Expanded(child: Image.memory(state.imageBytes as Uint8List, width: 127.0, height: 127.0,)),
+                                              const Text('Editar'),
+                                              SizedBox(height: 5.0,),
+                                              Visibility(
+                                                visible: imageIsNull,
+                                                child: Text('Imagem obrigatória.', style: customCardTitle(color: Colors.red),
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                        const SizedBox(width: 25.0,),
+                                        Expanded(
+                                          child: CustomTextInputWidget(
+                                            label: const Text('Nome do Pokémon'),
+                                            hint: 'Nome do Pokémon',
+                                            controller: pokemonName,
+                                            isRequired: true,
+                                            textInputAction: TextInputAction.next,
+                                            onChanged: (String value) => context.read<NewPokemonBloc>().add(SetPokemonNameEvent(pokemonName: pokemonName.text)),
+                                          ),
+                                        ),
                                       ],
                                     ),
                                   ),
-                                  const SizedBox(width: 25.0,),
                                   Expanded(
-                                    child: CustomTextInputWidget(
-                                      label: const Text('Nome do Pokémon'),
-                                      hint: 'Nome do Pokémon',
-                                      controller: pokemonName,
-                                      isRequired: true,
-                                      textInputAction: TextInputAction.next,
-                                      onChanged: (String value) => context.read<NewPokemonBloc>().add(SetPokemonNameEvent(pokemonName: pokemonName.text)),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Expanded(
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Expanded(
-                                    child: CustomDropdownButtonWidget(
-                                      isRequired: true,
-                                      validator: (value) {
-                                        if(value == 'Categoria' || value == null || value == '') {
-                                          return 'Este campo é obrigatório';
-                                        }
-                                        return null;
-                                      },
-                                      hint: 'Categoria',
-                                      items: state.categories!.map(
-                                              (category) => DropdownMenuItem(
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Expanded(
+                                          child: CustomDropdownButtonWidget(
+                                            isRequired: true,
+                                            validator: (value) {
+                                              if(value == 'Categoria' || value == null || value == '') {
+                                                return 'Este campo é obrigatório';
+                                              }
+                                              return null;
+                                            },
+                                            hint: 'Categoria',
+                                            items: state.categories!.map(
+                                                  (category) => DropdownMenuItem(
                                                 child: Text(category.replaceAll('-', ' ')),
                                                 value: category.replaceAll('-', ' '),
                                               ),
-                                      ).toList(),
-                                      onChanged: (value) => context.read<NewPokemonBloc>().add(SetPokemonCategoryEvent(pokemonCategory: value)),
-                                      value: null,
-                                    ),
-                                  ),
-                                  const SizedBox(width: 33.0,),
-                                  Expanded(
-                                    child: CustomDropdownButtonWidget(
-                                      isRequired: true,
-                                      validator: (value) {
-                                        if(value == 'Tipo' || value == null || value == '') {
-                                          return 'Este campo é obrigatório';
-                                        }
-                                        return null;
-                                      },
-                                      hint: 'Tipo',
-                                      items: state.types!.map(
-                                              (type) => DropdownMenuItem(
+                                            ).toList(),
+                                            onChanged: (value) => context.read<NewPokemonBloc>().add(SetPokemonCategoryEvent(pokemonCategory: value)),
+                                            value: null,
+                                          ),
+                                        ),
+                                        const SizedBox(width: 33.0,),
+                                        Expanded(
+                                          child: CustomDropdownButtonWidget(
+                                            isRequired: true,
+                                            validator: (value) {
+                                              if(value == 'Tipo' || value == null || value == '') {
+                                                return 'Este campo é obrigatório';
+                                              }
+                                              return null;
+                                            },
+                                            hint: 'Tipo',
+                                            items: state.types!.map(
+                                                  (type) => DropdownMenuItem(
                                                 child: Text(type.replaceAll('-', ' ')),
                                                 value: type.replaceAll('-', ' '),
                                               ),
-                                      ).toList(),
-                                      onChanged: (value) => context.read<NewPokemonBloc>().add(SetPokemonTypeEvent(pokemonType: value)),
-                                      value: null,
+                                            ).toList(),
+                                            onChanged: (value) => context.read<NewPokemonBloc>().add(SetPokemonTypeEvent(pokemonType: value)),
+                                            value: null,
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ),
-                                ],
-                              ),
-                            ),
-                            Expanded(
-                              child: Row(
-                                children: [
                                   Expanded(
-                                    child: CustomDropdownButtonWidget(
-                                      isRequired: true,
-                                      validator: (value) {
-                                        if(value == 'Habilidades' || value == null || value == '') {
-                                          return 'Este campo é obrigatório';
-                                        }
-                                        return null;
-                                      },
-                                      hint: 'Habilidades',
-                                      items: state.abilities!.map(
-                                              (ability) => DropdownMenuItem(
+                                    child: Row(
+                                      children: [
+                                        Expanded(
+                                          child: CustomDropdownButtonWidget(
+                                            isRequired: true,
+                                            validator: (value) {
+                                              if(value == 'Habilidades' || value == null || value == '') {
+                                                return 'Este campo é obrigatório';
+                                              }
+                                              return null;
+                                            },
+                                            hint: 'Habilidades',
+                                            items: state.abilities!.map(
+                                                  (ability) => DropdownMenuItem(
                                                 child: Text(ability.replaceAll('-', ' ')),
                                                 value: ability.replaceAll('-', ' '),
                                               ),
-                                      ).toList(),
-                                      onChanged: (value) => context.read<NewPokemonBloc>().add(SetPokemonAbilityEvent(pokemonAbility: value)),
-                                      value: null,
+                                            ).toList(),
+                                            onChanged: (value) => context.read<NewPokemonBloc>().add(SetPokemonAbilityEvent(pokemonAbility: value)),
+                                            value: null,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: CustomTextInputWidget(
+                                      controller: descriptionController,
+                                      onChanged: (String value) => context.read<NewPokemonBloc>().add(SetPokemonDescriptionEvent(pokemonDescription: descriptionController.text)),
+                                      label: Text('Descrição'),
+                                      hint: 'Descrição',
+                                      textInputAction: TextInputAction.done,
+                                      isRequired: true,
+                                    ),
+                                  ),
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      color: const Color(0xFF048ABF),
+                                      borderRadius: BorderRadius.circular(25.0),
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(horizontal: 88.0),
+                                      child: BlocConsumer<PokemonListBloc, PokemonListState>(
+                                          listener: (BuildContext context, PokemonListState state) {
+                                            if(state is PokemonCreated) {
+                                              SnackBar snackBar = const SnackBar(content: Text('Pokemon criado com sucesso!'));
+                                              ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                                              Navigator.pushReplacementNamed(context, '/');
+                                            }
+                                          },
+                                          builder: (BuildContext context, PokemonListState listState) {
+                                            switch(listState.runtimeType) {
+                                              case SavingNewPokemon:
+                                              case LoadingInfoState:
+                                                return TextButton(onPressed: () {}, child: PokeballLoaderWidget());
+                                              default:
+                                                return TextButton(
+                                                  onPressed: () {
+                                                    if(newPokemonFormKey.currentState!.validate() && state.imageBytes != null) {
+                                                      context.read<PokemonListBloc>().add(
+                                                        CreateNewPokemonEvent(
+                                                          newPokemon: PokemonListItemDetailed(
+                                                            isCustom: true,
+                                                            isFavorite: false,
+                                                            urlImage: '',
+                                                            pokemonName: state.name ?? '',
+                                                            pokemonSkills: state.ability ?? '',
+                                                            pokemonType: state.type ?? '',
+                                                            customSpecie: state.category ?? '',
+                                                            customDescription: state.description ?? '',
+                                                            customImage: state.imageBytes,
+                                                          ),
+                                                        ),
+                                                      );
+                                                    } else if (state.imageBytes == null){
+                                                      setState(() {
+                                                        imageIsNull = true;
+                                                      });
+                                                    }
+                                                  },
+                                                  child: Text(
+                                                    'Salvar',
+                                                    style: customButtonText(color: Colors.white),
+                                                  ),
+                                                );
+                                            }
+                                          }
+                                      ),
                                     ),
                                   ),
                                 ],
                               ),
                             ),
-                            Expanded(
-                              child: CustomTextInputWidget(
-                                  controller: descriptionController,
-                                  onChanged: (String value) => context.read<NewPokemonBloc>().add(SetPokemonDescriptionEvent(pokemonDescription: descriptionController.text)),
-                                  label: Text('Descrição'),
-                                  hint: 'Descrição',
-                                  textInputAction: TextInputAction.done,
-                                  isRequired: true,
-                              ),
-                            ),
-                            Container(
-                              decoration: BoxDecoration(
-                                color: const Color(0xFF048ABF),
-                                borderRadius: BorderRadius.circular(25.0),
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 88.0),
-                                child: BlocConsumer<PokemonListBloc, PokemonListState>(
-                                  listener: (BuildContext context, PokemonListState state) {
-                                    if(state is PokemonCreated) {
-                                      SnackBar snackBar = const SnackBar(content: Text('Pokemon criado com sucesso!'));
-                                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                                      Navigator.pop(context);
-                                    }
-                                  },
-                                  builder: (BuildContext context, PokemonListState listState) {
-                                    return TextButton(
-                                        onPressed: () {
-                                          if(newPokemonFormKey.currentState!.validate() && state.imageBytes != null) {
-                                            context.read<PokemonListBloc>().add(
-                                              CreateNewPokemonEvent(
-                                                newPokemon: PokemonListItemDetailed(
-                                                  isCustom: true,
-                                                  isFavorite: false,
-                                                  urlImage: '',
-                                                  pokemonName: state.name ?? '',
-                                                  pokemonSkills: state.ability ?? '',
-                                                  pokemonType: state.type ?? '',
-                                                  customSpecie: state.category ?? '',
-                                                  customDescription: state.description ?? '',
-                                                  customImage: state.imageBytes,
-                                                ),
-                                              ),
-                                            );
-                                          } else if (state.imageBytes == null){
-                                            setState(() {
-                                              imageIsNull = true;
-                                            });
-                                          }
-                                        },
-                                        child: Text(
-                                          'Salvar',
-                                          style: customButtonText(color: Colors.white),
-                                        ),
-                                    );
-                                  }
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
+                          )
+                        ],
                       ),
                     );
                 }

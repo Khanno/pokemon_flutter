@@ -37,13 +37,13 @@ class CustomBottomNavigatorWidget extends StatelessWidget {
         } else {
           switch(index) {
             case 0:
-              Navigator.pushNamed(context, '/');
+              Navigator.pushReplacementNamed(context, '/');
               break;
             case 1:
-              Navigator.pushNamed(context, '/pokemon-list');
+              Navigator.canPop(context) ? Navigator.pushReplacementNamed(context, '/pokemon-list') : Navigator.pushNamed(context, '/pokemon-list');
               break;
             case 2:
-              Navigator.pushNamed(context, '/new-pokemon');
+              Navigator.canPop(context) ? Navigator.pushReplacementNamed(context, '/new-pokemon') : Navigator.pushNamed(context, '/new-pokemon');
               break;
           }
         }

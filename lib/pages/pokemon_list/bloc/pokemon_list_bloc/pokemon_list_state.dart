@@ -32,6 +32,10 @@ class PokemonCreated extends PokemonListState {
   PokemonCreated({List<PokemonListItemDetailed>? pokemonList}) : super(pokemonList: pokemonList ?? []);
 }
 
+class SavingNewPokemon extends PokemonListState {
+  SavingNewPokemon({List<PokemonListItemDetailed>? pokemonList}) : super(pokemonList: pokemonList ?? []);
+}
+
 class ErrorState extends PokemonListState {
   ErrorState({required String message}) : super(errorMessage: message);
 }
