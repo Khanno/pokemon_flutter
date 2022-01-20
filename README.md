@@ -14,7 +14,7 @@ Some other packages were used for a better quality of life during development.
 
 This project don't require anything out of the ordinary.
 
-If you are trying to run the project for the fist time, run the following commands in the terminal inside the project folder:
+If you are trying to run the project for the first time, run the following commands in the terminal inside the project folder:
 
 - flutter pub get
 - flutter run
